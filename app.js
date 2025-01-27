@@ -2,13 +2,16 @@ const gameBoardDiv = document.getElementById('game-board');
 
 const height = 40;
 const width = 40;
-const speed = 200;
+const speed = 100;
+const food = ['🍖', '🍗', '🥩', '🐁', '🐀']
 
-gameBoardDiv.style.gridTemplateColumns = `repeat(${width}, 8px)`;
-gameBoardDiv.style.gridTemplateRows = `repeat(${height}, 8px)`;
+gameBoardDiv.style.gridTemplateColumns = `repeat(${width}, 12px)`;
+gameBoardDiv.style.gridTemplateRows = `repeat(${height}, 12px)`;
 
 let snake = [`${Math.floor(height / 2)}_${Math.floor(width / 2)}`];
 let direction = 'up';
+
+let foodX, foodY, foodIndex
 
 const intervalId = setInterval(run, speed);
 run();
@@ -16,6 +19,7 @@ run();
 function run() {
     updateSnake();
     drawGameBoard();
+    
 }
 
 document.addEventListener('keydown', e => {
@@ -48,7 +52,10 @@ function drawGameBoard() {
             let cellDiv = document.createElement('div');
 
             if (snake.includes(`${x}_${y}`)) {
-                cellDiv.style.backgroundColor = 'red';
+                cellDiv.innerHTML = '😼';
+            }
+            if (y == foodY && x == foodX) {
+                cellDiv.innerText = food(random)
             }
 
             gameBoardDiv.appendChild(cellDiv);
@@ -92,4 +99,13 @@ function updateSnake() {
 
     snake.shift();
     snake.push(`${x}_${y}`);
+}
+
+function generateFood(){
+    do{
+        foodY = Math.floor(Math.random() * height)
+        foodX = Math.floor(Math.random() * width)
+
+    }while(snake.includes(`${foodY}_${foodX}`))
+    foodIndex = Math.floor(Math.random() * food.length);
 }
