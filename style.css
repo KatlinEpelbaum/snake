@@ -1,20 +1,24 @@
-#game-board{
+body {
+    margin: 0;
+}
+
+#game-board div {
+    background-color: rgb(218, 246, 206);
+}
+
+
+#game-board {
+
     display: grid;
-    grid-gap: 0.5px;
-    background-color: black;
+    grid-gap: 1px;
     border: 1px solid black;
-
+ 
 }
 
-#game-board div{
-    background-color: white;
-}
-.container{
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-body{
-    margin: 0;
+
 }
