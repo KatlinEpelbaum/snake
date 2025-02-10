@@ -3,13 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <title>Snake</title>
 </head>
 <body>
+    
     <div class="container">
-        <div id="game-board">
+
+        <div class="options">
+            <div>
+                <span>Through walls</span><input type="checkbox" id="through-walls">
+            </div>
+            <div>
+                <span>Speed increasing:</span><input type="checkbox" id="speed-up">
+            </div>
         </div>
+
+        <div class="main">
+
+            <div id="message"></div>
+
+            <div class="score-container">
+                <div>Score: <span id="current-score"></span></div>
+                <div>Best score: <span id="high-score"></span></div>
+            </div>
+
+            <div id="game-board">
+            </div>
+
+            <button id="reset-game" class="hidden">Play again</button>
+
+        </div>
+
     </div>
 
 
