@@ -34,7 +34,7 @@ function initGame () {
     score = 0;
     currentScoreSpan.innerText = score;
 
-    food.generate(width,height, snake);
+    food.generate(gameBoard, snake);
 
     messageDiv.innerText = '';
     resetGameBtn.classList.add('hidden');

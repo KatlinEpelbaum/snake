@@ -25,8 +25,9 @@ class GameBoard {
                 }
     
                 if (y == food.y && x == food.x) {
-                    cellDiv.innerText = food.emojis;
+                    cellDiv.innerText = food.emoji; 
                 }
+                
                 
                 this.gameBoardDiv.appendChild(cellDiv);
             }

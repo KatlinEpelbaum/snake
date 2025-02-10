@@ -10,10 +10,10 @@ class Food {
         this.emojis = emojis;
         
     }
-    generate ( width, height, snake ) {
+    generate ( gameBoard, snake ) {
         do {
-            this.y = Math.floor(Math.random() * height);
-            this.x = Math.floor(Math.random() * width);
+            this.y = Math.floor(Math.random() * gameBoard.height);
+            this.x = Math.floor(Math.random() * gameBoard.width);
         } while (snake.includes(`${this.y}_${this.x}`));
         
         const index = Math.floor(Math.random() * this.emojis.length);
