@@ -13,7 +13,7 @@ class GameBoard {
         this.gameBoardDiv.style.gridTemplateRows = `repeat(${this.height}, 12px)`;
     }
 
-    draw ( snake,food , foodY, foodX, foodIndex ) {
+    draw ( snake, food ) {
         this.gameBoardDiv.innerHTML = '';
     
         for (let y = 0; y < this.height; y++) {
@@ -24,8 +24,8 @@ class GameBoard {
                     cellDiv.innerText = '😼';
                 }
     
-                if (y == foodY && x == foodX) {
-                    cellDiv.innerText = food[foodIndex];
+                if (y == food.y && x == food.x) {
+                    cellDiv.innerText = food.emojis;
                 }
                 
                 this.gameBoardDiv.appendChild(cellDiv);

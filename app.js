@@ -1,3 +1,4 @@
+import { Food } from "./src/Food.js";
 import { GameBoard } from "./src/GameBoard.js";
 
 const messageDiv = document.getElementById('message');
@@ -11,12 +12,13 @@ const height = 25;
 const width = 70;
 let speed = 200;
 const acceleration = 1;
-const food = ['🥩', '🍗', '🍖', '🐀', '🐁'];
+const foodEmojis = ['🥩', '🍗', '🍖', '🐀', '🐁'];
 
 
-let snake, direction, foodY, foodX, foodIndex, score, highScore, intervalId, throughWalls, speedUp;
+let snake, direction, score, highScore, intervalId, throughWalls, speedUp;
 
 const gameBoard = new GameBoard(width, height);
+const food = new Food(foodEmojis);
 
 initOptions();
 initGame();
@@ -32,7 +34,8 @@ function initGame () {
     score = 0;
     currentScoreSpan.innerText = score;
 
-    generateFood();
+    food.generate(width,height, snake);
+
     messageDiv.innerText = '';
     resetGameBtn.classList.add('hidden');
 
@@ -60,7 +63,7 @@ function initOptions () {
 function run () {
     clearInterval(intervalId);
     updateSnake();
-    gameBoard.draw(snake,food, foodY, foodX, foodIndex);
+    gameBoard.draw(snake, food);
 
     if (isGameOver()) {
         stopGame();
@@ -144,7 +147,7 @@ function updateSnake () {
 
     snake.unshift(`${y}_${x}`);
 
-    if (y == foodY && x == foodX) {
+    if (y == food.y && x == food.x) {
         score++;
         currentScoreSpan.innerText = score;
 
@@ -152,19 +155,11 @@ function updateSnake () {
             speed -= 5;
         }
 
-        generateFood();
+        food.generate(width,height, snake);
+    
     } else {
         snake.pop();
     }
-}
-
-function generateFood () {
-    do {
-        foodY = Math.floor(Math.random() * height);
-        foodX = Math.floor(Math.random() * width);
-    } while (snake.includes(`${foodY}_${foodX}`));
-    
-    foodIndex = Math.floor(Math.random() * food.length);
 }
 
 function isGameOver () {
