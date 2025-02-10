@@ -1,24 +1,19 @@
 class Food {
-
-    y;
-    x;
-    emojis;
-    emoji
-
-    constructor( emojis ) {
-
+    constructor(emojis) {
         this.emojis = emojis;
-        
+        this.y = 0;
+        this.x = 0;
+        this.emoji = '';
     }
-    generate ( gameBoard, snake ) {
+
+    generate(gameBoard, snakeCoordinates) {
         do {
             this.y = Math.floor(Math.random() * gameBoard.height);
             this.x = Math.floor(Math.random() * gameBoard.width);
-        } while (snake.includes(`${this.y}_${this.x}`));
+        } while (snakeCoordinates.includes(`${this.y}_${this.x}`));
         
-        const index = Math.floor(Math.random() * this.emojis.length);
-        this.emoji = this.emojis[index];
+        this.emoji = this.emojis[Math.floor(Math.random() * this.emojis.length)];
     }
 }
 
-export {Food}
+export { Food };

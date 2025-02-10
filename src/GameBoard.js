@@ -1,19 +1,14 @@
 class GameBoard {
-    
-    gameBoardDiv = document.getElementById('game-board');
-    width;
-    height;
-
-    constructor (width, height) {
-
-        this.width = width; 
+    constructor(width, height) {
+        this.gameBoardDiv = document.getElementById('game-board');
+        this.width = width;
         this.height = height;
 
         this.gameBoardDiv.style.gridTemplateColumns = `repeat(${this.width}, 12px)`;
         this.gameBoardDiv.style.gridTemplateRows = `repeat(${this.height}, 12px)`;
     }
 
-    draw ( snake, food ) {
+    draw(snake, food) {
         this.gameBoardDiv.innerHTML = '';
     
         for (let y = 0; y < this.height; y++) {
@@ -24,14 +19,14 @@ class GameBoard {
                     cellDiv.innerText = '😼';
                 }
     
-                if (y == food.y && x == food.x) {
-                    cellDiv.innerText = food.emoji; 
+                if (y === food.y && x === food.x) {
+                    cellDiv.innerText = food.emoji;
                 }
-                
                 
                 this.gameBoardDiv.appendChild(cellDiv);
             }
         }
     }
 }
-export { GameBoard }
+
+export { GameBoard };
