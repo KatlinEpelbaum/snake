@@ -16,9 +16,12 @@ class Game {
         this.throughWalls = throughWalls;
         this.acceleration = acceleration;
         
-        this.init();
-        this.resetGameBtn.addEventListener('click', () => this.init());
         this.setupControls();
+        this.resetGameBtn.addEventListener('click', () => {
+            this.resetGame();
+        });
+        
+        this.resetGame();
     }
 
     setupControls() {
@@ -44,14 +47,17 @@ class Game {
         });
     }
 
-    init() {
+    resetGame() {
         this.direction = 'up';
         this.speed = 200;
+        this.score = 0;
+        
+        this.snake.coordinates = [
+            `${Math.floor(this.gameBoard.height / 2)}_${Math.floor(this.gameBoard.width / 2)}`
+        ];
     
         this.highScore = localStorage.getItem('snakeHighScore') ?? 0;
         this.highScoreSpan.innerText = this.highScore;
-    
-        this.score = 0;
         this.currentScoreSpan.innerText = this.score;
     
         this.food.generate(this.gameBoard, this.snake.coordinates);
@@ -62,6 +68,7 @@ class Game {
         if (this.intervalId) {
             clearInterval(this.intervalId);
         }
+        
         this.intervalId = setInterval(() => this.run(), this.speed);
     }
 
