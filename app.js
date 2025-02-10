@@ -1,4 +1,5 @@
-const gameBoardDiv = document.getElementById('game-board');
+import { GameBoard } from "./src/GameBoard.js";
+
 const messageDiv = document.getElementById('message');
 const resetGameBtn = document.getElementById('reset-game');
 const currentScoreSpan = document.getElementById('current-score');
@@ -6,16 +7,16 @@ const highScoreSpan = document.getElementById('high-score');
 const throughWallsInput = document.getElementById('through-walls');
 const speedUpInput = document.getElementById('speed-up');
 
-const height = 50;
-const width = 100;
+const height = 25;
+const width = 70;
 let speed = 200;
 const acceleration = 1;
 const food = ['🥩', '🍗', '🍖', '🐀', '🐁'];
 
-gameBoardDiv.style.gridTemplateColumns = `repeat(${width}, 12px)`;
-gameBoardDiv.style.gridTemplateRows = `repeat(${height}, 12px)`;
 
 let snake, direction, foodY, foodX, foodIndex, score, highScore, intervalId, throughWalls, speedUp;
+
+const gameBoard = new GameBoard(width, height);
 
 initOptions();
 initGame();
@@ -59,7 +60,7 @@ function initOptions () {
 function run () {
     clearInterval(intervalId);
     updateSnake();
-    drawGameBoard();
+    gameBoard.draw(snake,food, foodY, foodX, foodIndex);
 
     if (isGameOver()) {
         stopGame();
@@ -90,26 +91,6 @@ document.addEventListener('keydown', e => {
 });
 
 resetGameBtn.addEventListener('click', () => initGame());
-
-function drawGameBoard () {
-    gameBoardDiv.innerHTML = '';
-
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            const cellDiv = document.createElement('div');
-
-            if (snake.includes(`${y}_${x}`)) {
-                cellDiv.innerText = '😼';
-            }
-
-            if (y == foodY && x == foodX) {
-                cellDiv.innerText = food[foodIndex];
-            }
-            
-            gameBoardDiv.appendChild(cellDiv);
-        }
-    }
-}
 
 function updateSnake () {
     let [y, x] = snake[0].split('_');
