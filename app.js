@@ -1,17 +1,12 @@
-import { Food } from "./src/Food.js";
+import { Game } from "./src/Game.js";
 import { GameBoard } from "./src/GameBoard.js";
 import { Snake } from "./src/Snake.js";
-import { Game } from "./src/Game.js";
-import { initOptions } from "./src/Options.js"
+import { Food } from "./src/Food.js";
+import { Options } from "./src/Options.js";
 
-const height = 25;
-const width = 70;
-const acceleration = 1;
-const foodEmojis = ['🥩', '🍗', '🍖', '🐀', '🐁'];
-
-const gameBoard = new GameBoard(width, height);
+const options = new Options();
+const gameBoard = new GameBoard();
 const snake = new Snake(gameBoard);
-const food = new Food(foodEmojis);
-const initOptions = new initOptions();
+const food = new Food();
 
-const game = new Game(gameBoard, snake, food, throughWalls, acceleration);
+new Game(gameBoard, snake, food, options);

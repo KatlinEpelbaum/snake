@@ -1,32 +1,29 @@
 class Game {
-    constructor(gameBoard, snake, food, throughWalls, acceleration) {
-        this.currentScoreSpan = document.getElementById('current-score');
-        this.messageDiv = document.getElementById('message');
-        this.resetGameBtn = document.getElementById('reset-game');
-        this.highScoreSpan = document.getElementById('high-score');
+    
+    currentScoreSpan = document.getElementById('current-score');
+    resetGameBtn = document.getElementById('reset-game');
 
-        this.score = 0;
-        this.highScore = 0;
-        this.speed = 200;
-        this.direction = 'up';
-        this.intervalId = null;
+    score;
+    highScore;
+    speed;
+    direction;
+    intervalId;
+    gameBoard;
+    snake;
+    food;
+    options;
+
+    constructor ( gameBoard, snake, food, options ) {
+        
         this.gameBoard = gameBoard;
         this.snake = snake;
         this.food = food;
-        this.throughWalls = throughWalls;
-        this.acceleration = acceleration;
-        
-        this.setupControls();
-        this.resetGameBtn.addEventListener('click', () => {
-            this.resetGame();
-        });
-        
-        this.resetGame();
-    }
+        this.options = options;
 
-    setupControls() {
+        this.init();
+
         document.addEventListener('keydown', e => {
-            switch (e.key.toLowerCase()) {
+            switch ( e.key.toLowerCase() ) {
                 case 'arrowup':
                 case 'w':
                     this.direction = 'up';
@@ -45,75 +42,86 @@ class Game {
                     break;
             }
         });
+
+        this.resetGameBtn.addEventListener('click', () => this.init());
+
     }
 
-    resetGame() {
+    init () {
+
+        this.snake.init(this.gameBoard);
+
         this.direction = 'up';
         this.speed = 200;
-        this.score = 0;
         
-        this.snake.coordinates = [
-            `${Math.floor(this.gameBoard.height / 2)}_${Math.floor(this.gameBoard.width / 2)}`
-        ];
-    
+        const highScoreSpan = document.getElementById('high-score');
         this.highScore = localStorage.getItem('snakeHighScore') ?? 0;
-        this.highScoreSpan.innerText = this.highScore;
+        highScoreSpan.innerText = this.highScore;
+        
+        this.score = 0;
         this.currentScoreSpan.innerText = this.score;
     
         this.food.generate(this.gameBoard, this.snake.coordinates);
     
-        this.messageDiv.innerText = '';
+        this.updateMessage('');
         this.resetGameBtn.classList.add('hidden');
     
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-        }
-        
-        this.intervalId = setInterval(() => this.run(), this.speed);
+        this.intervalId = setInterval(this.run.bind(this), this.speed);
+
     }
 
-    run() {
+    run () {
         clearInterval(this.intervalId);
-        const alive = this.snake.update(
-            this,
-            this.gameBoard,
-            this.direction,
-            this.throughWalls
-        );
-        
+        this.snake.update(this, this.gameBoard, this.food, this.options);
         this.gameBoard.draw(this.snake, this.food);
     
-        if (!alive || this.isGameOver()) {
+        if ( this.isGameOver() ) {
             this.stop();
         } else {
-            this.intervalId = setInterval(() => this.run(), this.speed);
+            this.intervalId = setInterval(this.run.bind(this), this.speed);
         }
     }
 
-    updateScore(acceleration) {
+    updateScore () {
+
         this.score++;
         this.currentScoreSpan.innerText = this.score;
 
-        if (this.score % acceleration === 0) {
-            this.speed = Math.max(50, this.speed - 5);
+        if ( this.score % this.options.acceleration == 0 ) {
+            this.speed -= 5;
         }
+
     }
 
-    isGameOver() {
-        return this.snake.slice(1).includes(this.snake.coordinates[0]);
+    updateMessage ( message ) {
+
+        const messageDiv = document.getElementById('message');
+        messageDiv.innerText = message;
+
     }
 
-    stop() {
+    isGameOver () {
+
+        if ( this.snake.coordinates.slice(1).includes(this.snake.coordinates[0]) ) {
+            return true;
+        }
+    
+        return false;
+    
+    }
+
+    stop () {
+
         clearInterval(this.intervalId);
-        this.messageDiv.innerText = 'The game is over!';
+        this.updateMessage('Game over!');
         this.resetGameBtn.classList.remove('hidden');
     
-        if (this.score > this.highScore) {
-            this.highScore = this.score;
+        if ( this.score > this.highScore ) {
             localStorage.setItem('snakeHighScore', this.score);
-            this.highScoreSpan.innerText = this.score;
         }
+    
     }
+
 }
 
-export { Game };
+export { Game }

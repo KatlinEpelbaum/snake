@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Snake</title>
+    <title>Snake Game</title>
 </head>
 <body>
     
@@ -12,10 +12,10 @@
 
         <div class="options">
             <div>
-                <span>Through walls</span><input type="checkbox" id="through-walls">
+                <span>Through walls:</span><input type="checkbox" id="through-walls">
             </div>
             <div>
-                <span>Speed increasing:</span><input type="checkbox" id="speed-up">
+                <span>Speed:</span><input type="checkbox" id="acceleration">
             </div>
         </div>
 
@@ -24,19 +24,17 @@
             <div id="message"></div>
 
             <div class="score-container">
-                <div>Score: <span id="current-score"></span></div>
-                <div>Best score: <span id="high-score"></span></div>
+                <div>Score: <span id="current-score">0</span></div>
+                <div>Best score: <span id="high-score">0</span></div>
             </div>
 
-            <div id="game-board">
-            </div>
+            <div id="game-board"></div>
 
-            <button id="reset-game" class="hidden">Play again</button>
+            <button id="reset-game" class="hidden">Restart Game</button>
 
         </div>
 
     </div>
-
 
     <script src="app.js" type="module"></script>
 </body>
